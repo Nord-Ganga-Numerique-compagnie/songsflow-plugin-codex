@@ -1,0 +1,33 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "songsflow",
+  "version": "0.1.0",
+  "description": "Local songwriting workspace with lyrics, chords, arrangements and MIDI export.",
+  "license": "MIT",
+  "keywords": [
+    "music",
+    "songwriting",
+    "lyrics",
+    "chords",
+    "midi",
+    "fl-studio"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "SongsFlow",
+        "shortDescription": "Lyrics, chords and MIDI",
+        "longDescription": "Write lyrics and chords, arrange sections, review proposed changes, and export MIDI, lyrics and JSON backups for FL Studio. Runs locally. Audio transcription and direct FL Studio control are not included.",
+        "category": "Creativity",
+        "capabilities": [
+          "Interactive",
+          "Write"
+        ],
+        "defaultPrompt": [
+          "Help me write a song with lyrics and chords.",
+          "Prepare my song for MIDI export to FL Studio."
+        ]
+      }
+    }
+  }
+}

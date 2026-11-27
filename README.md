@@ -8,6 +8,7 @@ Start with lyrics and chords, or attach a guitar-and-vocal recording as a refere
 
 ## Start here
 
+- **[Local Codex plugin](docs/LOCAL_PLUGIN.md)** — build, install and test SongsFlow locally.
 - **[SongsFlow setup and usage](docs/SONGSFLOW.md)** — run the embedded editor and HTTP MCP server, connect ChatGPT, and export files.
 - **[Original FL Studio MCP Server guide](docs/FL_STUDIO_MCP.md)** — desktop installation, virtual MIDI, controller scripts, tools, examples and troubleshooting.
 - **[Privacy and data handling](docs/PRIVACY.md)** — draft storage, reference audio, temporary downloads and release requirements.

@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "songsflow": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "run",
+        "--project",
+        "${PLUGIN_ROOT}/runtime",
+        "python",
+        "-m",
+        "songsflow.local_plugin"
+      ],
+      "cwd": "${PLUGIN_ROOT}/runtime"
+    }
+  }
+}

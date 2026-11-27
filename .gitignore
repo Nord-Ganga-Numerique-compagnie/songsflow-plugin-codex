@@ -10,3 +10,6 @@ web/test-results/
 web/playwright-report/
 **/__pycache__/
 .pytest_cache/
+plugins/songsflow/runtime/
+plugins/songsflow/LICENSE
+dist/

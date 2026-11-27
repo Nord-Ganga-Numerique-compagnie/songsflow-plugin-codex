@@ -1,0 +1,18 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "songsflow": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "run",
+        "--project",
+        "${PLUGIN_ROOT}/runtime",
+        "python",
+        "-m",
+        "songsflow.local_plugin"
+      ],
+      "cwd": "${PLUGIN_ROOT}/runtime"
+    }
+  }
+}

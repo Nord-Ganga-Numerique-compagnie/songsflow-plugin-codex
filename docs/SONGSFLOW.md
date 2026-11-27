@@ -7,14 +7,15 @@ SongsFlow is an OpenAI Apps SDK widget and a separate HTTP MCP server. It does n
 Use Python 3.12 (the app requires Python 3.11+), Node 24, uv, and npm. The former cryptography<49 compatibility cap was replaced with a patched >=50 constraint after security scanning. Intel Macs may need Rust and OpenSSL to build current cryptography releases; do not restore the vulnerable pin to avoid that build. The original FL Studio stdio server retains its Python 3.10 declaration; the app extra selects its newer dependencies on Python 3.11+.
 
 ```sh
-# From the repository root
-CC=gcc uv sync --extra app --dev --locked
+uv sync --extra app --dev --locked
 cd web
 npm ci
 npm run build
 cd ..
 SONGSFLOW_PUBLIC_URL=http://localhost:8765 uv run --extra app songsflow-app
 ```
+
+Run the commands above from the repository root. On Linux cloud machines with GCC installed but no Clang, prefix the `uv sync` command with `CC=gcc`. macOS uses its normal compiler configuration.
 
 `GET /health` is the readiness check. The widget HTML is built into `src/songsflow/widget/index.html` and packaged with Python wheels; build the widget before `uv build`. Generated bundles are ignored by Git. The build also generates and packages third-party license notices for dependency code included in the widget. `docs/dependency-inventory.json` records the reviewed installed versions and license metadata. Rebuild after frontend changes. The repository is an isolated checkout; no worktree is needed.
 
@@ -70,6 +71,7 @@ uv run --extra app pytest -q tests
 uv run ruff check .
 cd web
 npm test
+npx playwright install chromium
 npm run test:e2e
 npm run build
 npm run format:check
@@ -78,7 +80,23 @@ cd ..
 uvx pip-audit --path .venv/lib/python3.12/site-packages
 ```
 
-Playwright uses `/usr/bin/chromium` in this cloud environment; set `PLAYWRIGHT_CHROMIUM_EXECUTABLE` to use another installed Chromium, or install Playwright Chromium and omit the executable override. Browser tests use a mocked ChatGPT host; Python tests exercise real MCP discovery and tools. Production dependencies use patched lodash/KaTeX overrides because Apps SDK UI 0.2.2 otherwise brings known vulnerable versions. Keep the overrides until upstream releases patched constraints; rerun builds and interaction tests when changing them.
+Playwright uses its own installed Chromium by default on macOS, Windows and Linux. Run `npx playwright install chromium` once from `web/` after installing dependencies, and again when a Playwright upgrade requires a newer browser. A browser-launch error means the UI scenarios have not run; it does not establish that the app assertions failed.
+
+To use a preinstalled browser instead, explicitly set its executable path. For this Linux cloud environment:
+
+```sh
+PLAYWRIGHT_CHROMIUM_EXECUTABLE=/usr/bin/chromium npm run test:e2e
+```
+
+On a Mac with Google Chrome in its standard location, this is an alternative to downloading Playwright Chromium:
+
+```sh
+PLAYWRIGHT_CHROMIUM_EXECUTABLE="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" npm run test:e2e
+```
+
+Run these commands from `web/`. Shell comment lines beginning with `#` are explanatory; some interactive zsh configurations do not accept them when pasted. The Vite dependency warnings about ignored `"use client"` directives are nonfatal when the build finishes successfully. No npm major-version update is required to resolve a missing browser.
+
+ Browser tests use a mocked ChatGPT host; Python tests exercise real MCP discovery and tools. Production dependencies use patched lodash/KaTeX overrides because Apps SDK UI 0.2.2 otherwise brings known vulnerable versions. Keep the overrides until upstream releases patched constraints; rerun builds and interaction tests when changing them.
 
 ## Security, privacy and launch gates
 
